@@ -11,11 +11,23 @@ PID::PID() {}
 PID::~PID() {}
 
 void PID::Init(double Kp, double Ki, double Kd) {
+  this->Kp = Kp;
+  this->Ki = Ki;
+  this->Kd = Kd;
+  this->prev_p_perror = 0.0;
+  this->int_error = 0.0;
 }
 
 void PID::UpdateError(double cte) {
+  this->p_error = cte;
+
+  this->d_error = cte - prev_p_perror;
+  prev_p_perror = cte;
+
+  this->i_error += cte;
 }
 
 double PID::TotalError() {
-}
+    return -Kp * p_error - Kd * d_error - Ki * i_error;
 
+}

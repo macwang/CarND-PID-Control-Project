@@ -10,6 +10,9 @@ public:
   double i_error;
   double d_error;
 
+  double prev_p_perror;
+  double int_error;
+
   /*
   * Coefficients
   */ 
