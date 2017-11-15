@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "PID.h"
 
 using namespace std;
@@ -19,12 +21,20 @@ void PID::Init(double Kp, double Ki, double Kd) {
 }
 
 void PID::UpdateError(double cte) {
+  static int num = 0;
+  static double total_cte = 0.0;
   this->p_error = cte;
 
   this->d_error = cte - prev_p_perror;
   prev_p_perror = cte;
 
   this->i_error += cte;
+
+  num++;
+  if (num > 100 && num < 2100) {
+    total_cte += cte*cte;
+    cout << total_cte/(num - 100) << ", " << num << endl;
+  }
 }
 
 double PID::TotalError() {
